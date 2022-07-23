@@ -20,6 +20,10 @@ export class TgBot implements IBot {
             const server = fastify({logger: true});
 
             try {
+                server.get('/', async () => {
+                    return {hello: 'world'};
+                });
+
                 await server.register(fastifyMiddleware);
 
                 server.use(webhookCallback(this._bot, 'fastify'));

@@ -5,9 +5,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start": "export $(cat .env | xargs) && node build/bundle.js",
+    "start": "node build/bundle.js",
     "dev": "export $(cat .env.dev | xargs) && ts-node-script utils/run-watch.ts | nodemon build/bundle.js",
-    "build": "export $(cat .env | xargs) && tsc -noEmit && ts-node-script utils/run-build.ts"
+    "build": "tsc -noEmit && ts-node-script utils/run-build.ts"
   },
   "dependencies": {
     "@fastify/middie": "^8.0.0",

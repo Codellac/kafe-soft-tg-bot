@@ -6,8 +6,8 @@ import {textController} from '@src/controllers';
 
 const domain = String(process.env.DOMAIN);
 const token = String(process.env.BOT_TOKEN || '');
-const isProd = process.env.NODE_ENV === 'production';
 const port = Number(process.env.PORT || 3000);
+const isProd = process.env.NODE_ENV === 'production';
 
 const server = fastify();
 
@@ -22,7 +22,7 @@ export class TgBot implements IBot {
     async start() {
         if (isProd) {
             try {
-                server.register(fastifyExpress);
+               await server.register(fastifyExpress);
 
                 server.use(`/${token}`, webhookCallback(this._bot, 'fastify'));
 

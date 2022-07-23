@@ -8,8 +8,6 @@ const token = String(process.env.BOT_TOKEN || '');
 const isProd = process.env.NODE_ENV === 'production';
 const port = Number(process.env.PORT || 3000);
 
-const server = express();
-
 export class TgBot implements IBot {
     private readonly _bot;
 
@@ -21,6 +19,10 @@ export class TgBot implements IBot {
     async start() {
         if (isProd) {
             try {
+                const server = express();
+
+                server.use(express.json());
+
                 server.use(`/${token}`, webhookCallback(this._bot, 'express'));
 
                 await server.listen({port}, async () => {

@@ -1,0 +1,25 @@
+{
+  "name": "tg-bot",
+  "description": "Telegram bot",
+  "main": "main.ts",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "export $(cat .env | xargs) && node build/bundle.js",
+    "dev": "export $(cat .env.dev | xargs) && ts-node-script utils/run-watch.ts | nodemon build/bundle.js",
+    "build": "export $(cat .env | xargs) && tsc -noEmit && ts-node-script utils/run-build.ts"
+  },
+  "dependencies": {
+    "@fastify/middie": "^8.0.0",
+    "@grammyjs/menu": "^1.1.2",
+    "fastify": "^4.3.0",
+    "grammy": "^1.9.2"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.6",
+    "esbuild": "^0.14.49",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  }
+}

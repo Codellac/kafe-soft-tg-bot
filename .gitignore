@@ -1,7 +1,6 @@
 .idea
 
-/.node_modules/
-.node_modules/
+node_modules
 
 # build
 build
@@ -12,6 +11,7 @@ build
 
 # dev
 .prettierrc
+
 
 # debug
 yarn-error.log*

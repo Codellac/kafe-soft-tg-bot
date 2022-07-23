@@ -1,5 +1,5 @@
 import {IBot} from '@src/interfaces';
-import {Bot, webhookCallback} from 'grammy';
+import {Bot} from 'grammy';
 import fastify from 'fastify';
 import fastifyMiddleware from '@fastify/middie';
 import {textController} from '@src/controllers';
@@ -26,7 +26,7 @@ export class TgBot implements IBot {
 
                 await server.register(fastifyMiddleware);
 
-                server.use(webhookCallback(this._bot, 'fastify'));
+                // server.use(webhookCallback(this._bot, 'fastify'));
 
                 await server.listen({port});
             } catch (err) {

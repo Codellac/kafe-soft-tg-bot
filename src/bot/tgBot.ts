@@ -24,7 +24,7 @@ export class TgBot implements IBot {
             try {
                 await server.register(fastifyMiddleware);
 
-                server.post(`/${token}`, webhookCallback(this._bot, 'fastify'));
+                server.use(webhookCallback(this._bot, 'fastify'));
 
                 await server.listen({port}, async () => {
                     await this._bot.api.setWebhook(`https://${domain}/${token}`);

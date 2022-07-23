@@ -4,10 +4,12 @@ import fastify from 'fastify';
 import fastifyMiddleware from '@fastify/middie';
 import {textController} from '@src/controllers';
 
-const domain = process.env.DOMAIN;
-const token = process.env.BOT_TOKEN || '';
+const domain = String(process.env.DOMAIN);
+const token = String(process.env.BOT_TOKEN || '');
 const isProd = process.env.NODE_ENV === 'production';
 const port = Number(process.env.PORT || 3000);
+
+const server = fastify({logger: true});
 
 export class TgBot implements IBot {
     private readonly _bot;
@@ -19,12 +21,10 @@ export class TgBot implements IBot {
 
     async start() {
         if (isProd) {
-            const server = fastify({logger: true});
-
             try {
                 await server.register(fastifyMiddleware);
 
-                server.use(`/${token}`, webhookCallback(this._bot, 'fastify'));
+                server.post(`/${token}`, webhookCallback(this._bot, 'fastify'));
 
                 await server.listen({port}, async () => {
                     await this._bot.api.setWebhook(`https://${domain}/${token}`);

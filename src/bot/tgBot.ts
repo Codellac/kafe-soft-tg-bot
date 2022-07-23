@@ -1,7 +1,6 @@
 import {IBot} from '@src/interfaces';
 import {Bot, webhookCallback} from 'grammy';
 import {fastify} from 'fastify';
-import fastifyExpress from '@fastify/express';
 import {textController} from '@src/controllers';
 
 const domain = String(process.env.DOMAIN);
@@ -22,9 +21,7 @@ export class TgBot implements IBot {
     async start() {
         if (isProd) {
             try {
-               await server.register(fastifyExpress);
-
-                server.use(`/${token}`, webhookCallback(this._bot, 'express'));
+                server.post(`/${token}`, webhookCallback(this._bot, 'fastify'));
 
                 await server.listen({port}, async () => {
                     await this._bot.api.setWebhook(`https://${domain}/${token}`);

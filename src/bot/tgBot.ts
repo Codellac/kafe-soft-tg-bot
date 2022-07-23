@@ -1,12 +1,15 @@
 import {IBot} from '@src/interfaces';
 import {Bot, webhookCallback} from 'grammy';
-import express from "express";
+import {fastify} from 'fastify';
+import fastifyExpress from '@fastify/express';
 import {textController} from '@src/controllers';
 
 const domain = String(process.env.DOMAIN);
 const token = String(process.env.BOT_TOKEN || '');
 const isProd = process.env.NODE_ENV === 'production';
 const port = Number(process.env.PORT || 3000);
+
+const server = fastify();
 
 export class TgBot implements IBot {
     private readonly _bot;
@@ -19,9 +22,7 @@ export class TgBot implements IBot {
     async start() {
         if (isProd) {
             try {
-                const server = express();
-
-                server.use(express.json());
+                server.register(fastifyExpress);
 
                 server.use(`/${token}`, webhookCallback(this._bot, 'express'));
 

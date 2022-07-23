@@ -1,0 +1,14 @@
+node_modules
+
+# build
+build
+
+# local env files
+.env
+.env.dev
+
+# dev
+.prettierrc
+
+# debug
+yarn-error.log*

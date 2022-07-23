@@ -10,9 +10,9 @@
     "build": "export $(cat .env | xargs) && tsc -noEmit && ts-node-script utils/run-build.ts"
   },
   "dependencies": {
-    "@fastify/middie": "^8.0.0",
     "@grammyjs/menu": "^1.1.2",
-    "fastify": "^4.3.0",
+    "@types/express": "^4.17.13",
+    "express": "^4.18.1",
     "grammy": "^1.9.2"
   },
   "devDependencies": {

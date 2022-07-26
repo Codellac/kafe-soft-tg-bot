@@ -1,6 +1,6 @@
 import {TgBot} from '@src/bot/tgBot';
 import {fastify} from 'fastify';
-import middiePlugin from '@fastify/middie';
+import middlewarePlugin from '@fastify/express';
 import {errorHandler} from '@root/utils';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -13,7 +13,7 @@ async function main() {
 
     if (isProd) {
         const fastifyServer = fastify();
-        await fastifyServer.register(middiePlugin);
+        await fastifyServer.register(middlewarePlugin);
 
         await bot.setWebhook(webhook);
 

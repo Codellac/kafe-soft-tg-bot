@@ -4,6 +4,7 @@ import {textController} from '@src/bot/controllers';
 import {errorHandler} from '@root/utils';
 import {I18n} from '@grammyjs/i18n';
 import {freeStorage} from '@grammyjs/storage-free';
+import {FrameworkAdapter} from "grammy/out/convenience/webhook";
 
 const i18n = new I18n({
     defaultLanguage: 'ru',
@@ -39,8 +40,8 @@ export class TgBot implements IBot {
         this._bot.start();
     }
 
-    webhookCallback() {
-        return webhookCallback(this._bot, 'fastify');
+    webhookCallback(adapter?: FrameworkAdapter) {
+        return webhookCallback(this._bot, adapter);
     }
 
     setWebhook(webhook: string) {

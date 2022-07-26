@@ -16,6 +16,7 @@ async function main() {
         await fastifyServer.register(middiePlugin);
 
         await bot.setWebhook(webhook);
+
         await fastifyServer.use(`/${token}`, bot.webhookCallback());
         await fastifyServer.listen({port, host: '0.0.0.0'}, (err, address) => {
             if (err) {

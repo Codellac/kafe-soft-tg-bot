@@ -1,7 +1,7 @@
 import {TgBot} from '@src/bot/tgBot';
-import {Server} from '@src/server';
 import {fastify} from 'fastify';
 import middiePlugin from '@fastify/middie';
+import {errorHandler} from '@root/utils';
 
 const isProd = process.env.NODE_ENV === 'production';
 const port = Number(process.env.PORT || 3000);
@@ -12,13 +12,16 @@ async function main() {
     const bot = new TgBot(token);
 
     if (isProd) {
-        const fastifyServer = await fastify().register(middiePlugin);
-
-        const server = new Server(fastifyServer);
+        const fastifyServer = fastify();
+        await fastifyServer.register(middiePlugin);
 
         await bot.setWebhook(webhook);
-        await server.use(`/${token}`, bot.webhookCallback());
-        await server.listen({port, host: '0.0.0.0'});
+        await fastifyServer.use(`/${token}`, bot.webhookCallback());
+        await fastifyServer.listen({port, host: '0.0.0.0'}, (err, address) => {
+            if (err) {
+                errorHandler(err, `Server listening error on address: ${address}`);
+            }
+        });
 
         console.log('Server started on port: ', port);
     } else {

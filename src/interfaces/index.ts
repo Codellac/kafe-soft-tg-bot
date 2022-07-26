@@ -1,4 +1,3 @@
-export * from './server';
 export * from './telegramBot';
 export * from './bot';
 export * from './locale';

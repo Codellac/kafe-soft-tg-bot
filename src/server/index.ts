@@ -8,10 +8,10 @@ export class Server implements IServer {
 
     constructor() {
         this._server = fastify();
+        this._server.register(middleware);
     }
 
     async use(url: string, cb: any) {
-        await this._server.register(middleware);
         this._server.use(url, cb);
     }
 

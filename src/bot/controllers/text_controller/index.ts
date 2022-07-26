@@ -41,5 +41,4 @@ export const textController: MiddlewareFn<Filter<BotContext, 'message:text'>> = 
     }
 
     console.log(text);
-    console.log(`session - ${JSON.stringify(ctx.session)}`, `i18n - ${ctx.i18n.locale()}`);
 };

@@ -1,5 +1,7 @@
 import {TgBot} from '@src/bot/tgBot';
 import {Server} from '@src/server';
+import {fastify} from 'fastify';
+import middiePlugin from '@fastify/middie';
 
 const isProd = process.env.NODE_ENV === 'production';
 const port = Number(process.env.PORT || 3000);
@@ -10,7 +12,9 @@ async function main() {
     const bot = new TgBot(token);
 
     if (isProd) {
-        const server = new Server();
+        const fastifyServer = await fastify().register(middiePlugin);
+
+        const server = new Server(fastifyServer);
 
         await bot.setWebhook(webhook);
         await server.use(`/${token}`, bot.webhookCallback());

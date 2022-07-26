@@ -7,8 +7,7 @@ export class Server implements IServer {
     private readonly _server;
 
     constructor() {
-        this._server = fastify();
-        this._server.register(middleware);
+        this._server = fastify().register(middleware);
     }
 
     async use(url: string, cb: any) {

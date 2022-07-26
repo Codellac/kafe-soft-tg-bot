@@ -1,0 +1,15 @@
+common:
+  greeting: 'Xush kelibsiz!'
+  set_phone_number: '📱 Raqamingizni kiriting!'
+  back: '⬅️ Orqaga'
+  select_action: 'Harakatni tanlang'
+
+main_menu:
+  menu: '🍽 Menyu'
+  our_contacts: '☎️ Biz bilan aloqa'
+  shopping_basket: '🛍️ Savat'
+  feedback: "✍️ Fikringizni qo'ldiring"
+  settings: '⚙️ Sozlamalar'
+
+settings:
+  language: "🇺🇿 Tilni o'zgartirish"

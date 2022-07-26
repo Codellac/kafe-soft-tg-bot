@@ -1,6 +1,5 @@
 import {TgBot} from '@src/bot/tgBot';
 import {fastify} from 'fastify';
-import middlewarePlugin from '@fastify/express';
 import {errorHandler} from '@root/utils';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -12,13 +11,13 @@ async function main() {
     const bot = new TgBot(token);
 
     if (isProd) {
-        const fastifyServer = fastify();
-        await fastifyServer.register(middlewarePlugin);
+        const server = fastify();
 
         await bot.setWebhook(webhook);
 
-        await fastifyServer.use(`/${token}`, bot.webhookCallback());
-        await fastifyServer.listen({port, host: '0.0.0.0'}, (err, address) => {
+        await server.post(`/${token}`, bot.webhookCallback());
+
+        await server.listen({port, host: '0.0.0.0'}, (err, address) => {
             if (err) {
                 errorHandler(err, `Server listening error on address: ${address}`);
             }

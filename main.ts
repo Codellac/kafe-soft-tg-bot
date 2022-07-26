@@ -12,9 +12,9 @@ async function main() {
     if (isProd) {
         const server = new Server();
 
+        await bot.setWebhook(webhook);
         await server.use(`/${token}`, bot.webhookCallback());
         await server.listen({port, host: '0.0.0.0'});
-        await bot.setWebhook(webhook);
 
         console.log('Server started on port: ', port);
     } else {

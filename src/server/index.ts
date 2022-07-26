@@ -1,6 +1,6 @@
 import {IServer} from '@src/interfaces';
 import {fastify} from 'fastify';
-import middleware from '@fastify/middie';
+import middiePlugin from '@fastify/middie';
 import {errorHandler} from '@root/utils';
 
 export class Server implements IServer {
@@ -11,7 +11,7 @@ export class Server implements IServer {
     }
 
     async use(url: string, cb: any) {
-        await this._server.register(middleware);
+        await this._server.register(middiePlugin);
         this._server.use(url, cb);
     }
 

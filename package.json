@@ -1,7 +1,7 @@
 {
   "name": "tg-bot",
   "description": "Telegram bot",
-  "main": "main.ts",
+  "main": "server.ts",
   "private": true,
   "version": "0.0.0",
   "scripts": {

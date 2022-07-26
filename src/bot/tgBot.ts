@@ -40,7 +40,7 @@ export class TgBot implements IBot {
     }
 
     webhookCallback() {
-        return webhookCallback(this._bot, 'express');
+        return webhookCallback(this._bot, 'fastify');
     }
 
     setWebhook(webhook: string) {

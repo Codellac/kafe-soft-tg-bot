@@ -1,7 +1,7 @@
 import {buildSync} from 'esbuild';
 
 buildSync({
-    entryPoints: ['main.ts'],
+    entryPoints: ['server.ts'],
     platform: 'node',
     target: ['node16'],
     outfile: 'build/bundle.js',

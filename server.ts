@@ -7,7 +7,7 @@ const port = Number(process.env.PORT || 3000);
 const token = String(process.env.BOT_TOKEN || '');
 const webhook = `https://${process.env.DOMAIN}/${token}`;
 
-async function main() {
+async function server() {
     const bot = new TgBot(token);
 
     if (isProd) {
@@ -23,11 +23,11 @@ async function main() {
             }
         });
 
-        console.log('Server started on port: ', port);
+        console.log('Server started on port:', port);
     } else {
         await bot.start();
         console.log('Bot started...');
     }
 }
 
-main();
+server();

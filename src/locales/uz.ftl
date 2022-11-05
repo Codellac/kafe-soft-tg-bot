@@ -12,7 +12,6 @@ main-menu = main-menu
     .feedback = ✍️ Fikringizni qoldiring
     .settings = ⚙ Sozlamalar
 
-
 settings = settings
     .locale-change = Tilni ozgartirish
     .locale-ru = 🇷🇺 Русский

@@ -3,17 +3,17 @@
   "description": "Telegram bot",
   "main": "server.ts",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "start": "export $(cat .env | xargs) && node build/bundle.js",
-    "dev": "export $(cat .env.dev | xargs) && ts-node-script builders/run-watch.ts | nodemon build/bundle.js",
-    "build": "export $(cat .env | xargs) && tsc -noEmit && ts-node-script builders/run-build.ts"
+    "dev": "export $(cat .env.dev | xargs) && ts-node-script run-build.ts | nodemon build/bundle.js",
+    "build": "export $(cat .env | xargs) && tsc -noEmit && ts-node-script run-build.ts"
   },
   "dependencies": {
-    "@grammyjs/i18n": "^0.5.1",
+    "@grammyjs/fluent": "^1.0.3",
     "@grammyjs/menu": "^1.1.2",
     "@grammyjs/storage-free": "^2.0.0",
-    "@types/express": "^4.17.13",
+    "@moebius/fluent": "^1.1.0",
     "fastify": "^4.3.0",
     "grammy": "^1.9.2"
   },

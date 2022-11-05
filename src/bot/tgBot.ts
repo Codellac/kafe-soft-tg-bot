@@ -1,27 +1,14 @@
-import {BotContext, IBot} from '@src/interfaces';
+import {BotContext, IBot} from '@src/interfaces/bot';
 import {Bot, session, webhookCallback} from 'grammy';
-import {commandMiddleware, textMiddleware} from '@src/middlewares';
+import {commandMiddleware, textMiddleware, localeMiddleware} from '@src/bot/middlewares';
 import {errorHandler} from '@root/utils';
 import {freeStorage} from '@grammyjs/storage-free';
-import {Fluent} from '@moebius/fluent';
-import {useFluent} from '@grammyjs/fluent';
 
 export class TgBot implements IBot {
     private readonly _bot;
 
     constructor(token: string) {
-        const fluent = new Fluent();
         const bot = new Bot<BotContext>(token);
-
-        fluent.addTranslation({
-            locales: 'ru',
-            filePath: 'src/locales/ru.ftl'
-        });
-
-        fluent.addTranslation({
-            locales: 'uz',
-            filePath: 'src/locales/uz.ftl'
-        });
 
         bot.catch(err => {
             errorHandler(err, 'Bot error');
@@ -31,23 +18,15 @@ export class TgBot implements IBot {
         bot.use(
             session({
                 initial: () => ({
-                    navigation_history: [],
+                    back_navigation: null,
                     __language_code: 'ru'
                 }),
                 storage: freeStorage(token)
             })
         );
 
-        // Locale middleware
-        bot.use(
-            useFluent({
-                fluent,
-                defaultLocale: 'ru',
-                localeNegotiator: context => context.session.__language_code
-            })
-        );
+        bot.use(localeMiddleware);
 
-        // Middlewares
         bot.on('message:entities:bot_command', commandMiddleware);
         bot.on('message:text', textMiddleware);
 

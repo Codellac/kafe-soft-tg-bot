@@ -1,5 +1,5 @@
-import {TgBot} from '@src/bot/tgBot';
 import {fastify} from 'fastify';
+import {TgBot} from '@src/bot/tgBot';
 import {errorHandler} from '@root/utils';
 
 const isProd = process.env.NODE_ENV === 'production';

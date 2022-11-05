@@ -1,6 +1,6 @@
-import {BotContext} from "@src/interfaces";
+import {BotContext} from "@src/interfaces/bot";
 
-export class HelperClass {
+export class ContextClass {
     readonly _ctx;
 
     constructor(ctx: BotContext) {

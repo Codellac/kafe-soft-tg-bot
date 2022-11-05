@@ -1,10 +1,10 @@
 import {Keyboard} from 'grammy';
 import {BackNavigation, Locale} from "@src/bot/helpers";
-import {Helper} from '../helper';
+import {ContextClass} from '../contextClass';
 
 export type MenuName = 'mainMenu' | 'settingsMenu' | 'localeMenu';
 
-export class KeyboardMenu extends Helper {
+export class KeyboardMenu extends ContextClass {
     getMenu(menuName: MenuName) {
         const {translate} = new Locale(this._ctx);
         const navigation = new BackNavigation(this._ctx);

@@ -1,25 +1,21 @@
-import {Helper} from './helper';
+import {ContextClass} from './contextClass';
 
-export class NavigationHistory extends Helper {
+export class BackNavigation extends ContextClass {
+    getNavigation() {
+        return this._ctx.session.back_navigation;
+    }
+
     add(navigation: string) {
-        if (this._ctx.session.navigation_history) {
-            this._ctx.session.navigation_history.push(navigation);
-        } else {
-            this._ctx.session.navigation_history = [navigation];
+        this._ctx.session.back_navigation = navigation;
+    }
+
+    remove() {
+        if (this.hasNavigation()) {
+            this._ctx.session.back_navigation = null;
         }
     }
 
-    back() {
-        return this._ctx.session.navigation_history.pop();
-    }
-
-    hasHistory() {
-        return Boolean(this._ctx.session.navigation_history?.length);
-    }
-
-    clear() {
-        if (this.hasHistory()) {
-            this._ctx.session.navigation_history = [];
-        }
+    hasNavigation() {
+        return Boolean(this._ctx.session.back_navigation);
     }
 }

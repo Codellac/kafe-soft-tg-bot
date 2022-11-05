@@ -1,3 +1,4 @@
 export * from './menu';
+export {Locale} from './locale';
 export {MessageHelper} from './message';
-export {NavigationHistory} from './navigation_history';
+export {BackNavigation} from './backNavigation';

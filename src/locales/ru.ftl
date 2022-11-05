@@ -12,7 +12,6 @@ main-menu = main-menu
     .feedback = ✍️ Оставить отзыв
     .settings = ⚙ ️Настройки
 
-
 settings = settings
     .locale-change = Изменить язык
     .locale-ru = 🇷🇺 Русский

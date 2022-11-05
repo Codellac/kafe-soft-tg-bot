@@ -1,46 +1,45 @@
 import {Filter} from 'grammy/out/filter';
-import {BotContext} from '@src/interfaces';
-import {MessageHelper, NavigationHistory} from '@src/helpers';
+import {BotContext} from '@src/interfaces/bot';
+import {MessageHelper, BackNavigation, Locale} from '@src/bot/helpers';
 
 export const textHandler = (ctx: Filter<BotContext, 'message:text'>, text: string) => {
+    const {translate, changeLocale} = new Locale(ctx);
     const message = new MessageHelper(ctx);
-    const navigation = new NavigationHistory(ctx);
+    const backNavigation = new BackNavigation(ctx);
 
     const selectActionTxt = 'common.select-action';
 
     switch (text) {
         case 'start':
-            navigation.clear();
+            backNavigation.remove();
             message.sendMenu(selectActionTxt, 'mainMenu');
             break;
-        case ctx.t('main-menu.settings'):
-            navigation.add('start');
+        case translate('main-menu.settings'):
+            backNavigation.add('start');
             message.sendMenu(selectActionTxt, 'settingsMenu');
             break;
-        case ctx.t('settings.locale-change'):
-            navigation.add('main-menu.settings');
+        case translate('settings.locale-change'):
+            backNavigation.add('main-menu.settings');
             message.sendMenu(selectActionTxt, 'localeMenu');
             break;
-        case ctx.t('settings.locale-ru'):
-        case ctx.t('settings.locale-uz'):
-            navigation.add('settings.locale-change');
+        case translate('settings.locale-ru'):
+        case translate('settings.locale-uz'):
+            backNavigation.add('settings.locale-change');
 
-            if (text === ctx.t('settings.locale-uz')) {
-                ctx.fluent.useLocale('uz');
+            if (text === translate('settings.locale-uz')) {
+                changeLocale('uz');
                 ctx.session.__language_code = 'uz';
             } else {
-                ctx.fluent.useLocale('ru');
+                changeLocale('ru');
                 ctx.session.__language_code = 'ru';
             }
 
-            textHandler(ctx, ctx.t('main-menu.settings'));
+            textHandler(ctx, translate('main-menu.settings'));
             break;
-        case ctx.t('common.back'):
-            const prevNav = navigation.back();
-
-            if (prevNav) {
-                textHandler(ctx, ctx.t(prevNav));
-            }
+        case translate('common.back'):
+            const navigation = backNavigation.getNavigation() || 'start';
+            backNavigation.remove();
+            textHandler(ctx, translate(navigation));
     }
 
     console.log(ctx.session);

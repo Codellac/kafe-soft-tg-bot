@@ -1,6 +1,6 @@
 import {MiddlewareFn} from 'grammy/out/composer';
 import {Filter} from 'grammy/out/filter';
-import {BotContext} from '@src/interfaces';
+import {BotContext} from '@src/interfaces/bot';
 import {commandHandler} from '../handlers';
 
 export const commandMiddleware: MiddlewareFn<

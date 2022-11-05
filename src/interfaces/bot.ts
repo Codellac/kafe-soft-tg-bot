@@ -1,4 +1,12 @@
 import {Context as BaseContext, SessionFlavor} from 'grammy';
-import {I18nContextFlavor} from '@grammyjs/i18n';
+import {FluentContextFlavor} from '@grammyjs/fluent';
 
-export type BotContext = BaseContext & SessionFlavor<{}> & I18nContextFlavor;
+export type BotContext = BaseContext &
+    SessionFlavor<{back_navigation: string | null; __language_code: string}> &
+    FluentContextFlavor;
+
+export interface IBot {
+    start: () => void;
+    webhookCallback: () => any;
+    setWebhook: (webhook: string) => void;
+}

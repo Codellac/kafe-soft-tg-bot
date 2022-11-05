@@ -1,38 +1,57 @@
 import {BotContext, IBot} from '@src/interfaces';
 import {Bot, session, webhookCallback} from 'grammy';
-import {textController} from '@src/bot/controllers';
+import {commandMiddleware, textMiddleware} from '@src/middlewares';
 import {errorHandler} from '@root/utils';
-import {I18n} from '@grammyjs/i18n';
 import {freeStorage} from '@grammyjs/storage-free';
-
-const i18n = new I18n({
-    defaultLanguage: 'ru',
-    directory: 'src/bot/locales',
-    useSession: true,
-    sessionName: 'session'
-});
+import {Fluent} from '@moebius/fluent';
+import {useFluent} from '@grammyjs/fluent';
 
 export class TgBot implements IBot {
     private readonly _bot;
 
     constructor(token: string) {
-        this._bot = new Bot<BotContext>(token);
+        const fluent = new Fluent();
+        const bot = new Bot<BotContext>(token);
 
-        this._bot.use(
+        fluent.addTranslation({
+            locales: 'ru',
+            filePath: 'src/locales/ru.ftl'
+        });
+
+        fluent.addTranslation({
+            locales: 'uz',
+            filePath: 'src/locales/uz.ftl'
+        });
+
+        bot.catch(err => {
+            errorHandler(err, 'Bot error');
+        });
+
+        // Store middleware
+        bot.use(
             session({
-                initial: () => ({}),
+                initial: () => ({
+                    navigation_history: [],
+                    __language_code: 'ru'
+                }),
                 storage: freeStorage(token)
             })
         );
 
-        this._bot.use(i18n.middleware());
+        // Locale middleware
+        bot.use(
+            useFluent({
+                fluent,
+                defaultLocale: 'ru',
+                localeNegotiator: context => context.session.__language_code
+            })
+        );
 
-        // Handle message texts
-        this._bot.on('message:text', textController);
+        // Middlewares
+        bot.on('message:entities:bot_command', commandMiddleware);
+        bot.on('message:text', textMiddleware);
 
-        this._bot.catch(err => {
-            errorHandler(err, 'Bot error');
-        });
+        this._bot = bot;
     }
 
     async start() {
